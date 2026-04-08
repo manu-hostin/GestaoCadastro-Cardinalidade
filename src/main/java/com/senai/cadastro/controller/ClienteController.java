@@ -5,6 +5,8 @@ import com.senai.cadastro.DTO.ClienteResposta;
 import com.senai.cadastro.service.ClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +19,14 @@ public class ClienteController {
     private final ClienteService service;
 
     @PostMapping
-    public ClienteResposta cadastrarClientes (@Valid @RequestBody ClienteRequisicao requisicao) {
-        return service.cadastrarCliente(requisicao);
+    public ResponseEntity<ClienteResposta> cadastrarClientes (@Valid @RequestBody ClienteRequisicao requisicao) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                        .body(service.cadastrarCliente(requisicao));
     }
 
     @GetMapping
-    public List<ClienteResposta> listarClientes () {
-        return service.listarClientes();
+    public ResponseEntity<List<ClienteResposta>> listarClientes () {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(service.listarClientes());
     }
 }
-
